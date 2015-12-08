@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Order Groove Javascript Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auto-complete.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+</head>    
+<body>
+	<h1>
+	   Order Groove Javascript Test 	
+	</h1>
+	<h2> Using patched JavaScript-autoComplete by Pixbay: https://github.com/Pixabay/JavaScript-autoComplete 		
+	</h2>
+	<div class="srchfrm">
+	<form onsubmit="return false;" class="pure-form-stacked"  text-align:"center">
+        
+        <span> user name: </span>	
+		<input id="search-box" autofocus type="text" name="srch-box" placeholder="type a user name...">
+	    
+		<br><br><br>
+
+		<table id="user-data-table">
+			<tr>
+				<th>ID</th>	  	
+				<th>First Name</th>
+				<th>Last Name</th>		
+				<th>User Name</th>
+				<th>Email</th>
+				<th>City</th>
+				<th>Country</th>
+				<th>Favorite Color</th>
+				<th>Blog</th>
+				<th>Title</th>
+			</tr>
+		</table>
+    </form>
+    </div>
+    
+    <h3>
+    	Note: To use the autoComplete object, you must first start to type
+    	to activate the suggestions dropdown and then either a.) select from the choices with the mouse, or
+    	b.) select from the choices with the down arrow key.  Simply hitting enter or tab before doing this
+    	will not result in a callback from the control.  This is an internal focus issue that can be seen by setting a break point on line 153 in auto-complete.js.
+
+        <br><br>
+    	For this reason it is not possible to select a username that is not in the data base and show an
+    	error.
+        <br><br>
+    	Also, the issue can be seen here on GitHub: https://github.com/Pixabay/JavaScript-autoComplete/issues/1.
+        <br><br>
+        At this point I'm not able to spend any more time on this.  The soulution would be to modify
+        autoComplete, find an alternate library, or write it from scratch.
+
+    </h3>
+    <h3>
+    	Thanks,<br>
+    	Billy
+    </h3>
+       
+    <script src="auto-complete.min.js"></script>
+    <script>
+
+		var userData  = null;
+
+		function deleteTable(tableId){
+			var table = document.getElementById(tableId);
+			if (!table) return;
+
+			//todo: protect this
+			var numRows = table.rows.length;
+			for(var i=1; i < numRows; i ++ ){
+			table.deleteRow(i);                
+			}
+		}
+
+		function addCell(row,cellData,ndx){
+			var cell = row.insertCell(ndx);
+			cell.innerHTML = cellData;
+		}
+
+		function addRow(tableID,objUserData) {
+			var table = document.getElementById(tableID);
+			if (!table) return;
+
+			var row = table.insertRow(1);
+			var ndx = 0;
+			for (property in objUserData) {
+			   addCell(row,objUserData[property],ndx++);
+			}		 
+		}	
+
+		var autoCmplt = new autoComplete({
+			selector:  'input[name="srch-box"]', 
+			minChars: 1,
+			source: function(term, response){   
+				$.getJSON('data.json/', { r: term }, function(data){
+					userData = data;
+					var suggestions = [];
+					for (i=0;i<data.length;i++){
+                        var uname = data[i].username;
+						if(~data[i].username.toLowerCase().indexOf(term)){ 
+						   suggestions.push(uname);
+					    }
+				    }
+				    response(suggestions);
+			    });
+		    },
+			onSelect: function(event, term, item){
+				//console.log('onSelect.term: ' + term);
+				deleteTable('user-data-table');				
+				for(var i = 0; i < userData.length; i++){
+					if(userData[i].username === term){
+						addRow('user-data-table',userData[i]);
+				    }
+			    }
+			}
+        });
+    </script>
+</body> 
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

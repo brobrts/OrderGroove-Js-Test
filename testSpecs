@@ -1,0 +1,18 @@
+ 
+
+Exercise Details
+
+Create a web app that contains a search box to retrieve information about people profiles matching their user names. Once the search is triggered show the user info or an error message if the search was not successful. For the user profiles data use the JSON provided and AJAX to get the file.
+
+Create an autocomplete feature that suggest a list of users with similar username while you type on the search box.
+
+Don't use jQuery or any third party library for DOM selection/manipulation. You can use libraries for data binding.
+
+Unit tests not required, but certainly a bonus. For any need not specified use your own criteria.
+
+Let me know if you have any questions!
+
+
+Please complete this by end of day Wednesday. If you have it completed sooner than that, please send it to me!
+
+	 

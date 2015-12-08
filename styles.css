@@ -1,0 +1,24 @@
+body {
+	width:100%;
+    background-color: teal;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+th {
+    text-align: left;
+}
+form.srchfrm {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    margin-right: 18px;
+    margin-left: 18px;	
+}
+input {
+	width:10%;
+}
+
